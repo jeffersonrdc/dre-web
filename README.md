@@ -99,6 +99,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 -- INSTALAÇÃO --
+
 1 - Instalar o NodeJS 23.8.0
 2 - Instalar o NestJS: npm i -g @nestjs/cli
 3 - Se necessário, atualizar o NPM: npm install -g npm@latest

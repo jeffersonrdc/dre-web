@@ -102,29 +102,26 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 - Instalar o NodeJS 23.8.0.
 - Instalar o NestJS: npm i -g @nestjs/cli.
-3 - Se necessário, atualizar o NPM: npm install -g npm@latest
-4 - Após finalizar a instalação, abra o projeto e rode npm run start:dev para testar se o projeto esta rodando
-5 - Instale o typeorm e o mariadb: npm i @nestjs/typeorm typeorm mysql2
-6 - Configure o banco de dados no app.module
-7 - Limpe a pasta dist e rode o projeto novamente para testa a conexão com o banco de dados: rm -rf dist && npm run start:dev
-8 - Instale o recurso para acessar as variáveis de ambientes que ficarão no arquivo env: npm i @nestjs/config
-9 - Crie os arquivos env e env.example e passe suas configurações para esse arquivos. O env.example não informe os valores.
-10 - Atualize as configurações da etapa 6 para que carregem a parte do arquivo .env
-11 - Limpe a pasta dist e rode o projeto novamente para testa a conexão com o banco de dados: rm -rf dist && npm run start:dev
-12 - Instele as bibliotecas de validação: npm i class-validator class-transformer
-13 - Instale a biblioteca de criptografia de senha: npm i bcrypt
-14 - Instele as bibliotecas para configurar o token JWT: npm i @nestjs/passport passport-local passport-jwt jwt
-15 - Instale os types localmente: npm i @types/passport-local @types/passport-jwt
+- Se necessário, atualizar o NPM: npm install -g npm@latest
+- Após finalizar a instalação, abra o projeto e rode npm run start:dev para testar se o projeto esta rodando
+- Instale o typeorm e o mariadb: npm i @nestjs/typeorm typeorm mysql2
+- Configure o banco de dados no app.module
+- Limpe a pasta dist e rode o projeto novamente para testa a conexão com o banco de dados: rm -rf dist && npm run start:dev
+- Instale o recurso para acessar as variáveis de ambientes que ficarão no arquivo env: npm i @nestjs/config
+- Crie os arquivos env e env.example e passe suas configurações para esse arquivos. O env.example não informe os valores.
+- Atualize as configurações da etapa 6 para que carregem a parte do arquivo .env
+- Limpe a pasta dist e rode o projeto novamente para testa a conexão com o banco de dados: rm -rf dist && npm run start:dev
+- Instele as bibliotecas de validação: npm i class-validator class-transformer
+- Instale a biblioteca de criptografia de senha: npm i bcrypt
+- Instele as bibliotecas para configurar o token JWT: npm i @nestjs/passport passport-local passport-jwt jwt
+- Instale os types localmente: npm i @types/passport-local @types/passport-jwt
 
+## Opcionais
 
-
--- OPCIONAIS --
-
-Criar module: nest g module app/users
-Criar controller: nest g controller app/users
-Criar service: nest g service app/users
-Criar entidade: nest g entity app/users
-Crie o DTO para a entidade Usuario: nest g dto app/users
-
-gera chave JWT: openssl rand -base64 32
+- Criar module: nest g module app/users
+- Criar controller: nest g controller app/users
+- Criar service: nest g service app/users
+- Criar entidade: nest g entity app/users
+- Crie o DTO para a entidade Usuario: nest g dto app/users
+- Gera chave JWT: openssl rand -base64 32
 

@@ -124,4 +124,5 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 - Criar entidade: nest g entity app/users
 - Crie o DTO para a entidade Usuario: nest g dto app/users
 - Gera chave JWT: openssl rand -base64 32
+- rm -rf dist && npm run start:dev
 

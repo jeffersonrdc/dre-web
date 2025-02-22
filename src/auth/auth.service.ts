@@ -46,8 +46,6 @@ export class AuthService {
 
         const token = this.jwtService.sign(payload);
 
-
-
         // Configurando o cookie
 
         response.cookie('jwt', token, {
@@ -58,15 +56,14 @@ export class AuthService {
 
             sameSite: 'strict',  // Proteção contra CSRF
 
-            maxAge: 24 * 60 * 60 * 1000, // 24 horas
+            maxAge: 1 * 60 * 60 * 1000, // 1 hora
 
         });
 
-
-
         return {
 
-            message: 'Login realizado com sucesso'
+            message: 'Login realizado com sucesso',
+            statusCode: 200
 
         };
 

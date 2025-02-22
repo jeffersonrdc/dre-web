@@ -98,10 +98,10 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
--- INSTALAÇÃO --
+## Instalação
 
-1 - Instalar o NodeJS 23.8.0
-2 - Instalar o NestJS: npm i -g @nestjs/cli
+- Instalar o NodeJS 23.8.0.
+- Instalar o NestJS: npm i -g @nestjs/cli.
 3 - Se necessário, atualizar o NPM: npm install -g npm@latest
 4 - Após finalizar a instalação, abra o projeto e rode npm run start:dev para testar se o projeto esta rodando
 5 - Instale o typeorm e o mariadb: npm i @nestjs/typeorm typeorm mysql2

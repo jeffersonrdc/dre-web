@@ -1,0 +1,4 @@
+Nome,ID de autorização,Data da venda,Status,Método de captura,Bandeira,Forma de pagamento,Parcelas,Moeda,Valor total,Taxas,Taxas (%),Valor recebido,Número de série,Plano de recebimento
+Filipe Barbosa Martins,015267,17/01/2025 10:44,Aprovada,Link de Pagamento,Mastercard,Crédito,1,BRL,440.00,18.48,4.20%,421.52,,Um dia útil
+RODOLPHO MARTINS DE OLIVEIRA COSTA,221891,16/01/2025 10:11,Aprovada,Link de Pagamento,Mastercard,Crédito,3,BRL,1000.00,70.10,7.01%,929.90,,Um dia útil
+Juliana P D Silva,521480,13/01/2025 13:11,Aprovada,Link de Pagamento,Visa,Crédito,1,BRL,93.95,3.95,4.20%,90.00,,Um dia útil

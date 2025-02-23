@@ -4,6 +4,7 @@ import { UsuarioService } from 'src/app/usuario/usuario.service';
 import { compareSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
+import { mensagemHelper } from 'src/helpers/mensagem.helper';
 @Injectable()
 export class AuthService {
     constructor(private readonly usuarioService: UsuarioService, private readonly jwtService: JwtService) { }
@@ -62,7 +63,7 @@ export class AuthService {
 
         return {
 
-            message: 'Login realizado com sucesso',
+            message: mensagemHelper.login.success,
             statusCode: 200
 
         };

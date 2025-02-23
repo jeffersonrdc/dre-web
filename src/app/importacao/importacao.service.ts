@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ImportacaoEntity } from './importacao.entity';
 import * as fs from 'fs';
 import * as ofxParser from 'ofx-parser';
+import { mensagemHelper } from 'src/helpers/mensagem.helper';
+import { TipoImportacaoEnum } from './enum/tipo-importacao.enum';
 
 @Injectable()
 export class ImportacaoService {
@@ -12,7 +14,14 @@ export class ImportacaoService {
         private importacaoRepository: Repository<ImportacaoEntity>,
     ) { }
 
-    async create(importacao: ImportacaoEntity): Promise<ImportacaoEntity> {
+    async create(transactions: any): Promise<ImportacaoEntity> {
+        const importacao = new ImportacaoEntity();
+        importacao.DT_Importacao = new Date();
+        importacao.NM_Arquivo = transactions.NM_Arquivo;
+        importacao.ID_ContaBancaria = transactions.ID_ContaBancaria;
+        importacao.ID_TipoImportacao = transactions.ID_TipoImportacao;
+        importacao.ID_UsuarioCriacao = transactions.ID_UsuarioCriacao;
+
         return this.importacaoRepository.save(importacao);
     }
 
@@ -33,7 +42,7 @@ export class ImportacaoService {
         await this.importacaoRepository.delete(id);
     }
 
-    async importacaoOFX(file: Express.Multer.File): Promise<any> {
+    async importacaoOFX(body: any, file: Express.Multer.File): Promise<any> {
         try {
             // Cria o diretório uploads se não existir
             const uploadDir = './uploads/ofx';
@@ -64,10 +73,27 @@ export class ImportacaoService {
                         amount: transaction.TRNAMT,
                         fitId: transaction.FITID,
                         memo: transaction.MEMO,
+                        
+                        /* if (transaction.TRNTYPE == 'OUT'){
+
+                        } else {
+
+                        } */
                     }));
+
+                    const importacao = {
+                        NM_Arquivo: file.originalname,
+                        ID_ContaBancaria: body.ID_ContaBancaria,
+                        ID_UsuarioCriacao: body.ID_UsuarioCriacao,
+                        ID_TipoImportacao: TipoImportacaoEnum.OFX,
+                    };
+                    
+                    // Grava o registro de importação
+                    //const importacaoSalva = await this.create(importacao);
 
                     return {
                         success: true,
+                        importacao: bankMessages,
                         data: formattedTransactions,
                         bankInfo: {
                             bankId: bankMessages['STMTTRNRS'].STMTRS.BANKACCTFROM.BANKID,
@@ -77,7 +103,7 @@ export class ImportacaoService {
                         }
                     };
                 } else {
-                    throw new Error('STMTTRNRS não encontrado na estrutura do arquivo OFX.');
+                    throw new Error(mensagemHelper.importacao.ofx.notFound_STMTTRNRS_or_STMTRS);
                 }
             } catch (error) {
                 if (fs.existsSync(filePath)) {
@@ -88,13 +114,12 @@ export class ImportacaoService {
         } catch (error) {
             return {
                 success: false,
-                message: 'Erro ao processar o arquivo',
-                error: error.message
+                message: mensagemHelper.importacao.ofx.erro
             };
         }
     }
 
-    async importacaoCSV(file: Express.Multer.File): Promise<any> {
+    async importacaoCSV(body: any, file: Express.Multer.File): Promise<any> {
         try {
             // Cria o diretório uploads se não existir
             const uploadDir = './uploads/csv';

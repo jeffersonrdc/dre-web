@@ -19,6 +19,6 @@ export class ImportacaoController {
     @Post('csv')
     @UseInterceptors(FileInterceptor('file'))
     async importacaoCSV(@Body() body: CreateImportacaoDto, @UploadedFile() file: Express.Multer.File) {
-        return this.importacaoService.importacaoCSV(body, file);
+        return await this.importacaoService.importacaoCSV(body, file);
     }
 }

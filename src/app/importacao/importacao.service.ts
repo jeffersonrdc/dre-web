@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import * as ofxParser from 'ofx-parser';
 import { mensagemHelper } from 'src/helpers/mensagem.helper';
 import { TipoImportacaoEnum } from './enum/tipo-importacao.enum';
-import csvParser from 'csv-parser';
+import * as csvParser from 'csv-parser';
 
 @Injectable()
 export class ImportacaoService {
@@ -143,16 +143,8 @@ export class ImportacaoService {
       const filePath = `${uploadDir}/${file.originalname}`;
       fs.writeFileSync(filePath, file.buffer);
 
-      // Processa o arquivo CSV
-      const results: any[] = [];
-      fs.createReadStream(filePath)
-        .pipe(csvParser()) // Usando csv-parser para processar o CSV
-        .on('data', (row) => results.push(row)) // Lê cada linha e adiciona ao array 'results'
-        .on('end', () => {
-          // Aqui você pode processar os dados extraídos do CSV conforme necessário
-          console.log('Arquivo CSV processado:', results);
-          // Por exemplo, você pode salvar no banco ou realizar outra operação.
-        });
+      // Processa o arquivo CSV de forma assíncrona
+      const results: any[] = await this.processCSV(filePath);
 
       return { message: 'Arquivo CSV processado com sucesso', data: results };
     } catch (error) {
@@ -161,5 +153,17 @@ export class ImportacaoService {
         error: error.message,
       };
     }
+  }
+
+  private processCSV(filePath: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      const results: any[] = [];
+
+      fs.createReadStream(filePath)
+        .pipe(csvParser())
+        .on('data', (row) => results.push(row))
+        .on('end', () => resolve(results))
+        .on('error', (error) => reject(error));
+    });
   }
 }

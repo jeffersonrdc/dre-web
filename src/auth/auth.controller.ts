@@ -2,6 +2,7 @@ import { Controller, Post, UseGuards, Req, Res, HttpCode, HttpStatus } from '@ne
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
+
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -9,12 +10,17 @@ export class AuthController {
     @UseGuards(AuthGuard('local'))
     @Post('login')
     @HttpCode(HttpStatus.OK)
-    /* async login(@Req() req: any) {
-        return await this.authService.login(req.user);
-    } */
     async login(@Req() req, @Res({ passthrough: true }) response: Response) {
 
         return this.authService.login(req.user, response);
+
+    }
+
+    @Post('refresh-token')
+    @HttpCode(HttpStatus.OK)
+    async refreshToken(@Req() req, @Res({ passthrough: true }) response: Response) {
+
+        return this.authService.refreshToken(req, response);
 
     }
 }

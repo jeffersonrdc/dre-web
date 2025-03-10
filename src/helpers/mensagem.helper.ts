@@ -1,22 +1,22 @@
 export const mensagemHelper = {
     usuario: {
         email: {
-            required: 'O email é obrigatório',
+            required: 'O email é obrigatório.',
         },
         senha: {
-            required: 'A senha é obrigatória',
-            invalid: 'A senha deve conter letra maiúscula, letra minúscula, número e caracteres especiais',
+            required: 'A senha é obrigatória.',
+            invalid: 'A senha deve conter letra maiúscula, letra minúscula, número e caracteres especiais.',
         },
     },
     login: {
-        invalid: 'Email ou senha inválidos',
-        success: 'Login realizado com sucesso'
+        invalid: 'Email ou senha inválidos.',
+        success: 'Login realizado com sucesso.'
     },
     importacao: {
         contaBancaria: {
-            required: 'A conta bancária é obrigatória',
-            invalid: 'O campo ID_ContaBancaria deve ser um número maior que 0',
-            invalid_number: 'O campo ID_ContaBancaria deve ser um número',
+            required: 'A conta bancária é obrigatória.',
+            invalid: 'O campo ID_ContaBancaria deve ser um número maior que 0.',
+            invalid_number: 'O campo ID_ContaBancaria deve ser um número.',
         },
         ofx: {
             invalid: 'Arquivo inválido! Verifique.',
@@ -29,12 +29,15 @@ export const mensagemHelper = {
         }
     },
     token: {
-        invalid: 'Token inválido ou expirado',
+        other: 'Acesso não autorizado.',
+        noActived: 'Token ainda não está ativo.',
+        jwt_notfound: 'JWT_SECRET não está definido nas variáveis de ambiente.',
+        invalid: 'Token inválido ou expirado.',
         notFound: 'Token não encontrado.',
         refreshToken: {
-            invalid: 'Refresh Token inválido ou expirado.',
-            notFound: 'Refresh Token não encontrado.',
-            success: 'Token renovado com sucesso'
+            invalid: 'Refresh token inválido ou expirado.',
+            notFound: 'Refresh token não encontrado.',
+            success: 'Refresh token renovado com sucesso.'
         }
     }
 };

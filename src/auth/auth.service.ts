@@ -47,9 +47,12 @@ export class AuthService {
 
             httpOnly: true,  // Impede acesso via JavaScript no cliente
 
-            secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
+            secure: true,  // HTTPS apenas em produção
 
-            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF
+            sameSite: 'none',  // Proteção contra CSRF
+            /* secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
+
+            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF */
 
             maxAge: 1 * 60 * 60 * 1000, // 1 hora
 
@@ -59,9 +62,12 @@ export class AuthService {
         response.cookie('refreshToken', refreshToken, {
             httpOnly: true,  // Impede acesso via JavaScript no cliente
 
-            secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
+            secure: true,  // HTTPS apenas em produção
 
-            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF
+            sameSite: 'none',  // Proteção contra CSRF
+            /* secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
+
+            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF */
 
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
         });
@@ -96,7 +102,7 @@ export class AuthService {
                 { expiresIn: process.env.JWR_EXPIRE_IN }
             );
 
-            response.cookie('token', newAccessToken, {
+            response.cookie('jwt', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
 

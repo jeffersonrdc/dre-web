@@ -8,10 +8,6 @@ import { JwtPayload } from "../interfaces/jwt-payload.interface";
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
-            /* jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: process.env.JWT_SECRET,
-        } as StrategyOptionsWithRequest); */
             jwtFromRequest: ExtractJwt.fromExtractors([
                 (request: Request) => {
                     return request?.cookies?.jwt;
@@ -23,9 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         } as StrategyOptionsWithRequest);
     }
 
-    /* async validate(payload: any) {
-        return { ID_Usuario: payload.sub };
-    } */
     async validate(request: Request, payload: JwtPayload) {
         return { ID_Usuario: payload.sub };
     }

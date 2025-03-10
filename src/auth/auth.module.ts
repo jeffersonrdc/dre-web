@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt_strategy';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -18,7 +19,7 @@ import { JwtStrategy } from './strategies/jwt_strategy';
 
     })
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy], // Os providers são os serviços que serão injetados no módulo, neste caso, precisamos injetar o AuthService e o LocalStrategy com o @Injectable
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtAuthGuard], // Os providers são os serviços que serão injetados no módulo, neste caso, precisamos injetar o AuthService e o LocalStrategy com o @Injectable
   controllers: [AuthController] // Os controllers são os controladores que serão injetados no módulo, neste caso, precisamos injetar o AuthController
 })
 export class AuthModule { }

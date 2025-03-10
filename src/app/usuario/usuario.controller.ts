@@ -4,9 +4,11 @@ import { UsuarioEntity } from './usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('api/usuario')
-@UseGuards(AuthGuard('jwt'))
+//@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard) // ✅ Agora usa o JwtAuthGuard
 export class UsuarioController {
     constructor(private readonly usuarioService: UsuarioService) { }
 

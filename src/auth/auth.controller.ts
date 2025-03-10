@@ -8,7 +8,7 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @UseGuards(AuthGuard('local'))
-    @Post('login')
+    @Post()
     @HttpCode(HttpStatus.OK)
     async login(@Req() req, @Res({ passthrough: true }) response: Response) {
 

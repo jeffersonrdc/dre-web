@@ -34,10 +34,15 @@ export const mensagemHelper = {
         jwt_notfound: 'JWT_SECRET não está definido nas variáveis de ambiente.',
         invalid: 'Token inválido ou expirado.',
         notFound: 'Token não encontrado.',
+        success: 'Token encontrado com sucesso.',
         refreshToken: {
             invalid: 'Refresh token inválido ou expirado.',
             notFound: 'Refresh token não encontrado.',
             success: 'Refresh token renovado com sucesso.'
+        },
+        logout:{
+            success: 'Logout realizado com sucesso.',
+            error: 'Erro ao fazer logout.'
         }
     }
 };

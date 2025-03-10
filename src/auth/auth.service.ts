@@ -5,6 +5,7 @@ import { compareSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { mensagemHelper } from 'src/helpers/mensagem.helper';
+import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthService {
     constructor(private readonly usuarioService: UsuarioService, private readonly jwtService: JwtService) { }
@@ -104,9 +105,14 @@ export class AuthService {
 
             response.cookie('jwt', newAccessToken, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
 
-                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF
+                secure: true,  // HTTPS apenas em produção
+
+                sameSite: 'none',  // Proteção contra CSRF
+                /* secure: process.env.NODE_ENV === 'production' ? true : false,  // HTTPS apenas em produção
+
+                sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF */
+
 
                 maxAge: 1 * 60 * 60 * 1000, // 1 hora
             });
@@ -115,6 +121,66 @@ export class AuthService {
 
         } catch (error) {
             throw new UnauthorizedException(mensagemHelper.token.refreshToken.invalid);
+        }
+    }
+
+    async verificaValidadeToken(request: Request, response: Response) {
+        const token = request.cookies['jwt'];
+
+        if (!token) {
+            throw new UnauthorizedException(mensagemHelper.token.notFound);
+        }
+
+        try {
+            // 🔹 Verifica o token manualmente
+            const secret = process.env.JWT_SECRET;
+            if (!secret) {
+                throw new Error(mensagemHelper.token.jwt_notfound);
+            }
+            jwt.verify(token, secret);
+        } catch (error) {
+            // 🔥 Captura erros específicos do JSON Web Token
+            if (error instanceof jwt.TokenExpiredError) {
+                throw new UnauthorizedException(mensagemHelper.token.invalid);
+            }
+
+            if (error instanceof jwt.JsonWebTokenError) {
+                throw new UnauthorizedException(mensagemHelper.token.invalid);
+            }
+
+            if (error instanceof jwt.NotBeforeError) {
+                throw new UnauthorizedException(mensagemHelper.token.noActived);
+            }
+
+            // 🔹 Qualquer outro erro
+            throw new UnauthorizedException(mensagemHelper.token.other);
+        }
+
+        return { message: mensagemHelper.token.success, statusCode: 204 };
+
+
+    }
+
+    async logout(response: Response) {
+
+        try {
+            // Remover os cookies dos tokens
+            response.clearCookie('jwt', {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none'
+            });
+
+            response.clearCookie('refreshToken', {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none'
+            });
+
+            return { message: mensagemHelper.token.logout.success, statusCode: 200 };
+
+        } catch (error) {
+            return { message: mensagemHelper.token.logout.error, statusCode: 500 };
         }
     }
 }

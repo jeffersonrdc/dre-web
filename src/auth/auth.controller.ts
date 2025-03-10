@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Req, Res, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Res, HttpCode, HttpStatus, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
@@ -21,6 +21,20 @@ export class AuthController {
     async refreshToken(@Req() req, @Res({ passthrough: true }) response: Response) {
 
         return this.authService.refreshToken(req, response);
+
+    }
+
+    @Get('verifica-token')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async verificaValidadeToken(@Req() req, @Res({passthrough: true}) response: Response){
+        return this.authService.verificaValidadeToken(req, response);
+    }
+
+    @Get('logout')
+    @HttpCode(HttpStatus.OK)
+    async logout(@Res({ passthrough: true }) response: Response) {
+
+        return this.authService.logout(response);
 
     }
 }

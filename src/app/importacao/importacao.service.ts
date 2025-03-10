@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import * as ofxParser from 'ofx-parser';
 import { mensagemHelper } from 'src/helpers/mensagem.helper';
 import { TipoImportacaoEnum } from './enum/tipo-importacao.enum';
-import * as csv from 'csv-parser';
+import * as csvParser from 'csv-parser';
 import { ReceitaEntity } from '../receita/receita.entity';
 import { DespesaEntity } from '../despesa/despesa.entity';
 import { REQUEST } from '@nestjs/core';
@@ -182,34 +182,17 @@ export class ImportacaoService {
       filePath = `${uploadDir}/${file.originalname}`;
       fs.writeFileSync(filePath, file.buffer);
 
-      // Processa o arquivo CSV usando Promise
-      const results: any[] = [];
+      // Processa o arquivo CSV de forma assíncrona
+      const results: any[] = await this.processCSV(filePath);
 
-      return new Promise((resolve, reject) => {
-        fs.createReadStream(filePath)
-          .pipe(csv())
-          .on('data', (row) => results.push(row))
-          .on('end', () => {
-            // Limpa o arquivo após processamento
-            if (fs.existsSync(filePath)) {
-              fs.unlinkSync(filePath);
-            }
-            resolve({
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+
+      return {
               message: 'Arquivo CSV processado com sucesso',
               data: results
-            });
-          })
-          .on('error', (error) => {
-            if (fs.existsSync(filePath)) {
-              fs.unlinkSync(filePath);
-            }
-            reject({
-              message: 'Erro ao processar o arquivo',
-              error: error.message,
-            });
-          });
-      });
-
+            };
     } catch (error) {
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
@@ -219,5 +202,17 @@ export class ImportacaoService {
         error: error.message,
       };
     }
+  }
+
+  private processCSV(filePath: string): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      const results: any[] = [];
+
+      fs.createReadStream(filePath)
+        .pipe(csvParser())
+        .on('data', (row) => results.push(row))
+        .on('end', () => resolve(results))
+        .on('error', (error) => reject(error));
+    });
   }
 }

@@ -16,7 +16,7 @@ export class AuthController {
 
     }
 
-    @Post('refresh-token')
+    @Get('atualiza-token')
     @HttpCode(HttpStatus.OK)
     async refreshToken(@Req() req, @Res({ passthrough: true }) response: Response) {
 
@@ -26,8 +26,8 @@ export class AuthController {
 
     @Get('verifica-token')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async verificaValidadeToken(@Req() req, @Res({passthrough: true}) response: Response){
-        return this.authService.verificaValidadeToken(req, response);
+    async verificaValidadeToken(@Req() req){
+        return this.authService.verificaValidadeToken(req);
     }
 
     @Get('logout')

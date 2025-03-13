@@ -102,13 +102,6 @@ export class ImportacaoService {
 
           const formattedTransactions: any[] = [];
           for (const transaction of transactions) {
-            const transactionData = {
-              type: transaction.TRNTYPE,
-              date: transaction.DTPOSTED,
-              amount: transaction.TRNAMT,
-              fitId: transaction.FITID,
-              memo: transaction.MEMO,
-            };
 
             const dataFormatada = new Date(
               transaction.DTPOSTED.substring(0, 4), // ano
@@ -117,13 +110,15 @@ export class ImportacaoService {
 
             if (transaction.TRNTYPE === 'OUT') {
               const despesa = new DespesaEntity();
-              despesa.DT_Lancamento = dataFormatada;
+              despesa.DT_Lancamento = dataFormatada;              
               despesa.VL_Despesa = Math.abs(parseFloat(transaction.TRNAMT));
               despesa.NM_Observacao = transaction.MEMO;
               despesa.ID_UsuarioCriacao = ID_UsuarioCriacao;
               despesa.ID_ContaBancaria = body.ID_ContaBancaria;
               despesa.ID_Importacao = importacaoSalva.ID_Importacao;
-              await this.despesaRepository.save(despesa);
+              let dadosRegistro = await this.despesaRepository.save(despesa);              
+              var ID_Registro = dadosRegistro.ID_Despesa; 
+              var VL_Documento = dadosRegistro.VL_Despesa;
             } else {
               const receita = new ReceitaEntity();
               receita.DT_Lancamento = dataFormatada;
@@ -132,8 +127,19 @@ export class ImportacaoService {
               receita.ID_UsuarioCriacao = ID_UsuarioCriacao;
               receita.ID_ContaBancaria = body.ID_ContaBancaria;
               receita.ID_Importacao = importacaoSalva.ID_Importacao;
-              await this.receitaRepository.save(receita);
+              let dadosRegistro = await this.receitaRepository.save(receita);
+              var ID_Registro = dadosRegistro.ID_Receita;
+              var VL_Documento = dadosRegistro.VL_Receita;
             }
+
+            const transactionData = {
+              NM_TipoRegistro: transaction.TRNTYPE,
+              DT_Lancamento: dataFormatada,
+              VL_Documento: VL_Documento,
+              fitId: transaction.FITID,
+              NM_Observacao: transaction.MEMO,
+              ID_Registro: ID_Registro              
+            };
 
             formattedTransactions.push(transactionData);
           }
@@ -190,9 +196,9 @@ export class ImportacaoService {
       }
 
       return {
-              message: 'Arquivo CSV processado com sucesso',
-              data: results
-            };
+        message: 'Arquivo CSV processado com sucesso',
+        data: results
+      };
     } catch (error) {
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);

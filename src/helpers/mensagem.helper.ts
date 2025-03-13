@@ -10,7 +10,13 @@ export const mensagemHelper = {
     },
     login: {
         invalid: 'Email ou senha inválidos.',
-        success: 'Login realizado com sucesso.'
+        success: 'Login realizado com sucesso.',
+        email: {
+            required: 'O email é obrigatório.',
+        },
+        senha: {
+            required: 'A senha é obrigatória.',
+        }
     },
     importacao: {
         contaBancaria: {
@@ -40,7 +46,7 @@ export const mensagemHelper = {
             notFound: 'Refresh token não encontrado.',
             success: 'Refresh token renovado com sucesso.'
         },
-        logout:{
+        logout: {
             success: 'Logout realizado com sucesso.',
             error: 'Erro ao fazer logout.'
         }

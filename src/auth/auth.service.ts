@@ -55,7 +55,7 @@ export class AuthService {
 
             sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',  // Proteção contra CSRF */
 
-            maxAge: 1 * 60 * 60 * 1000, // 1 hora
+            maxAge: 24 * 60 * 60 * 1000, // 24 hora
 
         });
 
@@ -73,10 +73,11 @@ export class AuthService {
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
         });
 
-        return {
+        return user = {
 
-            message: mensagemHelper.login.success,
-            statusCode: 200
+            id: user.ID_Usuario,
+            name: user.NM_Nome,
+            email: user.NM_Email
 
         };
 
@@ -124,7 +125,7 @@ export class AuthService {
         }
     }
 
-    async verificaValidadeToken(request: Request, response: Response) {
+    async verificaValidadeToken(request: Request) {
         const token = request.cookies['jwt'];
 
         if (!token) {

@@ -6,6 +6,9 @@ export class UsuarioEntity {
     @PrimaryGeneratedColumn()
     ID_Usuario: number;
 
+    @Column({ length: 45, unique: true })
+    NM_Nome: string;
+
     @Column({ length: 100, unique: true })
     NM_Email: string;
 
